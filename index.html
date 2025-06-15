@@ -60,11 +60,12 @@
                             <h1 class="h3 mb-1">Dashboard de Comedores Comunitarios</h1>
                             <p class="text-muted mb-0">Panel de control y estadísticas generales</p>
                         </div>
-                        <div class="d-flex align-items-center gap-3">
-                            <span class="badge bg-success fs-6" id="last-update">Última actualización: --:--</span>
-                            <button class="btn btn-primary" id="refresh-data">
+                          <div class="d-flex align-items-center gap-3">
+                          <!--comentado se analizara-->
+                            <!--  <span class="badge bg-success fs-6" id="last-update">Última actualización: --:--</span>
+                          <button class="btn btn-primary" id="refresh-data">
                                 <i class="fas fa-sync-alt me-1"></i>Actualizar
-                            </button>
+                            </button> -->
                         </div>
                     </div>
 
@@ -123,8 +124,8 @@
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between">
                                         <div>
-                                            <h4 class="mb-0" id="total-raciones">0</h4>
                                             <p class="mb-0 small">Total Raciones</p>
+                                            <h4 class="mb-0" id="total-raciones">0</h4>                                           
                                         </div>
                                         <div class="align-self-center">
                                             <i class="fas fa-utensils fa-2x"></i>
@@ -138,8 +139,8 @@
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between">
                                         <div>
-                                            <h4 class="mb-0" id="comedores-activos">0</h4>
                                             <p class="mb-0 small">Comedores Activos</p>
+                                            <h4 class="mb-0" id="comedores-activos">0</h4>                                           
                                         </div>
                                         <div class="align-self-center">
                                             <i class="fas fa-store fa-2x"></i>
@@ -153,8 +154,8 @@
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between">
                                         <div>
-                                            <h4 class="mb-0" id="beneficiarios-total">0</h4>
-                                            <p class="mb-0 small">Beneficiarios</p>
+                                             <p class="mb-0 small">Beneficiarios</p>
+                                            <h4 class="mb-0" id="beneficiarios-total">0</h4>                                       
                                         </div>
                                         <div class="align-self-center">
                                             <i class="fas fa-users fa-2x"></i>
@@ -168,8 +169,8 @@
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between">
                                         <div>
-                                            <h4 class="mb-0" id="entregas-hoy">0</h4>
                                             <p class="mb-0 small">Entregas Hoy</p>
+                                            <h4 class="mb-0" id="entregas-hoy">0</h4>                                         
                                         </div>
                                         <div class="align-self-center">
                                             <i class="fas fa-calendar-day fa-2x"></i>
@@ -183,8 +184,8 @@
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between">
                                         <div>
-                                            <h4 class="mb-0" id="alertas-duplicados">0</h4>
-                                            <p class="mb-0 small">Alertas Duplicados</p>
+                                             <p class="mb-0 small">Alertas Duplicados</p>
+                                            <h4 class="mb-0" id="alertas-duplicados">0</h4>                                        
                                         </div>
                                         <div class="align-self-center">
                                             <i class="fas fa-exclamation-triangle fa-2x"></i>
@@ -197,9 +198,9 @@
                             <div class="card bg-info text-white shadow hover-scale">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between">
-                                        <div>
-                                            <h4 class="mb-0" id="promedio-diario">0</h4>
+                                        <div>                                         
                                             <p class="mb-0 small">Promedio Diario</p>
+                                            <h4 class="mb-0" id="promedio-diario">0</h4>
                                         </div>
                                         <div class="align-self-center">
                                             <i class="fas fa-chart-line fa-2x"></i>
@@ -230,9 +231,25 @@
                     </div>
 
                     <!-- Gráficos -->
+                    
                     <div class="row mb-4">
+                        
+                        <!-- Gráfico de cantidad de beneficiarios x comedor-->
+                         <div class="col-lg-6 mb-4">
+                            <div class="card shadow">
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Gráfico de Cantidad Beneficiarios x Comedor</h5>
+                                </div>
+                                <div class="card-body" style="max-width: 50%;margin-left: 200px; ">
+                                    <div class="chart-container">
+                                        <canvas id="chart-beneficiarios-comedor"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Gráfico de Entregas por Día -->
-                        <div class="col-lg-6 mb-4">
+                        <!--<div class="col-lg-6 mb-4">
                             <div class="card shadow">
                                 <div class="card-header bg-white">
                                     <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Entregas por Día (Últimos 7 días)</h5>
@@ -243,7 +260,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
 
                         <!-- Gráfico de Distribución por Zona -->
                         <div class="col-lg-6 mb-4">
@@ -279,9 +296,9 @@
                         <div class="col-lg-6 mb-4">
                             <div class="card shadow">
                                 <div class="card-header bg-white">
-                                    <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Comedores más Activos</h5>
+                                    <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Comedores Activos/Inactivos</h5>
                                 </div>
-                                <div class="card-body">
+                                <div class ="card-body" style="max-width: 300px; margin: auto;">
                                     <div class="chart-container">
                                         <canvas id="chart-comedores-activos"></canvas>
                                     </div>
@@ -413,6 +430,7 @@
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     
+    <script src="dashboard.js"></script>
     <!-- Aquí irá tu JavaScript personalizado -->
     <script>
         // Aquí puedes agregar tu código JavaScript personalizado
