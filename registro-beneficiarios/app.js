@@ -90,9 +90,18 @@ function registrarBeneficiario(event) {
     };
     
     // Validar DNI único
-    if (beneficiarios.some(b => b.dni === beneficiario.dni && editandoIndex === -1)) {
-        mostrarNotificacion('El DNI ya está registrado', 'error');
-        return;
+    if (editandoIndex === -1) {
+        // Nuevo registro - verificar DNI único
+        if (beneficiarios.some(b => b.dni === beneficiario.dni)) {
+            mostrarNotificacion('El DNI ya está registrado', 'error');
+            return;
+        }
+    } else {
+        // Editando registro existente - verificar DNI único excepto el registro actual
+        if (beneficiarios.some((b, index) => b.dni === beneficiario.dni && index !== editandoIndex)) {
+            mostrarNotificacion('El DNI ya está registrado por otro beneficiario', 'error');
+            return;
+        }
     }
     
     // Validar campos requeridos

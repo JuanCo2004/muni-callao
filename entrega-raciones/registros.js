@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // 2. Cargar registros existentes o inicializar array
     let entregas = JSON.parse(localStorage.getItem('entregas')) || [];
 
@@ -38,6 +39,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // 4. Función para actualizar la tabla
+=======
+// registros.js - Solo manejo de visualización (SIN guardar entregas)
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Obtener elementos del DOM
+    const tabla = document.getElementById('tablaRaciones');
+    
+    // 2. Cargar registros existentes
+    let entregas = JSON.parse(localStorage.getItem('entregas')) || [];
+    
+    // 3. Función para actualizar la tabla
+>>>>>>> Juan-rama
     function actualizarTabla() {
         tabla.innerHTML = '';
         
@@ -80,6 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+<<<<<<< HEAD
     // 5. Event Listeners
     form.addEventListener('submit', guardarEntrega);
     
@@ -99,6 +112,59 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Función para exportar a PDF (agregar al final del archivo registros.js)
 document.getElementById('btnExportar').addEventListener('click', function() {
+=======
+    // 4. Función para refrescar datos desde localStorage
+    function refrescarDatos() {
+        entregas = JSON.parse(localStorage.getItem('entregas')) || [];
+        actualizarTabla();
+    }
+
+    // 5. Función para eliminar entrega
+    function eliminarEntrega(id) {
+        const confirmacion = confirm('¿Está seguro de que desea eliminar esta entrega?');
+        
+        if (confirmacion) {
+            // Filtrar entregas para eliminar la seleccionada
+            entregas = entregas.filter(entrega => entrega.id !== parseInt(id));
+            
+            // Guardar en localStorage
+            localStorage.setItem('entregas', JSON.stringify(entregas));
+            
+            // Actualizar tabla
+            actualizarTabla();
+            
+            // Mostrar mensaje de confirmación
+            alert('✅ Entrega eliminada correctamente');
+        }
+    }
+
+    // 6. Event listener para botones de eliminar (delegación de eventos)
+    tabla.addEventListener('click', function(e) {
+        // Verificar si se hizo clic en un botón de eliminar o su icono
+        const btnEliminar = e.target.closest('.btn-eliminar');
+        
+        if (btnEliminar) {
+            const id = btnEliminar.getAttribute('data-id');
+            eliminarEntrega(id);
+        }
+    });
+
+    // 7. Cargar datos al iniciar
+    actualizarTabla();
+    
+    // 8. Actualizar tabla cada vez que cambie localStorage (opcional)
+    window.addEventListener('storage', refrescarDatos);
+    
+    // 9. Función pública para actualizar tabla (llamar desde otros archivos)
+    window.actualizarTablaRaciones = refrescarDatos;
+});
+
+// Función para exportar a PDF
+document.getElementById('btnExportar').addEventListener('click', function() {
+    // Obtener datos actualizados
+    const entregas = JSON.parse(localStorage.getItem('entregas')) || [];
+    
+
     // Configuración del PDF
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
@@ -112,7 +178,7 @@ document.getElementById('btnExportar').addEventListener('click', function() {
     const img = new Image();
     img.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Logo_muni_callao.png/1200px-Logo_muni_callao.png';
    // doc.addImage(img, 'PNG', 10, 10, 30, 30);
-    
+
     // Fecha de generación
     doc.setFontSize(10);
     doc.text(`Generado el: ${new Date().toLocaleDateString('es-PE')}`, 160, 25);
@@ -179,5 +245,9 @@ document.getElementById('btnExportar').addEventListener('click', function() {
     
     // Guardar el PDF
     doc.save(`Reporte_Entregas_${new Date().toISOString().slice(0,10)}.pdf`);
+
+});
+
+
 });
 
