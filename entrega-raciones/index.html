@@ -220,6 +220,10 @@
           <h1 class="text-sm font-bold text-gray-800 sm:hidden">MPC</h1>
         </div>
         <div class="flex space-x-2 sm:space-x-6">
+          <a href="../index.html" onclick="navegarA('dashboard')" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-lg text-sm font-medium hover-scale">
+            <i class="fas fa-utensils mr-1"></i>
+            <span class="hidden sm:inline">Inicio</span>
+          </a>
           <a href="../formulario-comedores/index.html" class="text-gray-700 hover:text-purple-600 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover-lift">
             <i class="fas fa-utensils mr-1" aria-hidden="true"></i>
             <span class="hidden sm:inline">Comedores</span>
@@ -528,5 +532,15 @@
       </div>
     </div>
   </footer>
+  <script src="app.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+  // Agregar este script al HTML (antes de registros.js)
+document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>');
+document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>');
+
+  <script src="registros.js"></script>
 </body>
 </html>
