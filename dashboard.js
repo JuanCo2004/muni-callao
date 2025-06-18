@@ -1,4 +1,19 @@
 //localstore
+let chartTiposRacion; // Variable global
+
+function actualizarGraficoTiposRacion(data) {
+  const conteo = { desayuno: 0, almuerzo: 0 };
+  data.forEach((e) => {
+    if (e.tipoDeRacion === "desayuno") conteo.desayuno++;
+    if (e.tipoDeRacion === "almuerzo") conteo.almuerzo++;
+  });
+
+  if (chartTiposRacion) {
+    chartTiposRacion.data.datasets[0].data = [conteo.desayuno, conteo.almuerzo];
+    chartTiposRacion.update();
+  }
+}
+
 
 document.addEventListener("DOMContentLoaded", () => {
   // Obtener comedores desde localStorage
@@ -7,11 +22,74 @@ document.addEventListener("DOMContentLoaded", () => {
   const entregas = JSON.parse(localStorage.getItem("entregas")) || [];
   // Filtrar solo los comedores activos
   const comedoresActivos = comedores.filter((c) => c.activo === true);
+  // Inicializar gráfico una vez
+  const ctx = document.getElementById("chart-tipos-racion").getContext("2d");
+  chartTiposRacion = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: ["Desayuno", "Almuerzo"],
+      datasets: [
+        {
+          label: "Cantidad entregada",
+          data: [0, 0], // valores iniciales
+          backgroundColor: ["#fbbf24", "#10b981"],
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: "Tipos de Ración Entregadas",
+        },
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { precision: 0 },
+        },
+      },
+    },
+  });
+
+  actualizarGraficoTiposRacion(entregas); // Mostrar datos al inicio
+
+  document.getElementById("apply-filters").addEventListener("click", () => {
+    const desde = document.getElementById("filter-fecha-desde").value;
+    const hasta = document.getElementById("filter-fecha-hasta").value;
+    const tipo = document.getElementById("filter-tipo-racion").value;
+
+    const filtradas = entregas.filter((e) => {
+      const fechaEntrega = new Date(e.fecha.split("/").reverse().join("-"));
+      const fechaDesde = desde ? new Date(desde) : null;
+      const fechaHasta = hasta ? new Date(hasta) : null;
+
+      const cumpleFecha =
+        (!fechaDesde || fechaEntrega >= fechaDesde) &&
+        (!fechaHasta || fechaEntrega <= fechaHasta);
+
+      const cumpleTipo = !tipo || e.tipoDeRacion === tipo;
+
+      return cumpleFecha && cumpleTipo;
+    });
+
+    document.getElementById("total-raciones").textContent = filtradas.length;
+    actualizarGraficoTiposRacion(filtradas);
+  });
+
+  document.getElementById("clear-filters").addEventListener("click", () => {
+    document.getElementById("filter-fecha-desde").value = "";
+    document.getElementById("filter-fecha-hasta").value = "";
+    document.getElementById("filter-tipo-racion").value = "";
+    document.getElementById("total-raciones").textContent = entregas.length;
+    actualizarGraficoTiposRacion(entregas);
+  });
 
   // Filtrar entregas de hoy
-  const hoy = `${new Date().getDate()}/${
-    new Date().getMonth() + 1
-  }/${new Date().getFullYear()}`;
+  const hoy = `${new Date().getDate()}/${new Date().getMonth() + 1
+    }/${new Date().getFullYear()}`;
 
   const entregasHoy = entregas.filter((e) => e.fecha === hoy);
   const totalHoy = entregasHoy.reduce((sum, e) => sum + (e.cantidad || 1), 0);
