@@ -1,268 +1,539 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard - Comedores Comunitarios</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .card-gradient-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        .card-gradient-2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
-        .card-gradient-3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
-        .card-gradient-4 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
-        .card-gradient-5 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
-        .hover-scale { transition: transform 0.2s ease-in-out; }
-        .hover-scale:hover { transform: scale(1.02); }
-        .chart-container { position: relative; height: 300px; }
-        .alert-pulse { animation: pulse 2s infinite; }
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
         }
-        .sidebar { min-height: 100vh; background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%); }
-        .main-content { min-height: 100vh; background-color: #f8f9fa; }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .animate-slide-in-left {
+            animation: slideInLeft 0.6s ease-out;
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .animate-bounce-custom {
+            animation: bounceCustom 2s infinite;
+        }
+        
+        @keyframes bounceCustom {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-5px);
+            }
+            60% {
+                transform: translateY(-3px);
+            }
+        }
+        
+        .hover-scale {
+            transition: all 0.3s ease;
+        }
+        
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+        
+        .hover-lift {
+            transition: all 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-2px);
+        }
+        
+        .animate-glow {
+            animation: glow 2s infinite alternate;
+        }
+        
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 5px rgba(252, 211, 77, 0.5);
+            }
+            to {
+                box-shadow: 0 0 20px rgba(252, 211, 77, 0.8);
+            }
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+        
+        .kpi-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+        
+        .kpi-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .main-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin: 2rem;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-custom {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .card-custom:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header-custom {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+        }
+        
+        .form-input {
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 12px 16px;
+            transition: all 0.3s ease;
+            background: #f9fafb;
+            width: 100%;
+        }
+        
+        .form-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: white;
+            outline: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            color: white;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+        
+        .btn-secondary {
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            color: #6b7280;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .btn-secondary:hover {
+            border-color: #667eea;
+            color: #667eea;
+            transform: translateY(-2px);
+            background: white;
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+            color: white;
+            cursor: pointer;
+        }
+        
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.6);
+        }
+        
+        .alert-warning {
+            background: linear-gradient(135deg, #fef3c7, #fed7aa);
+            border: none;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #f59e0b;
+        }
+        
+        .nav-link-custom {
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-link-custom::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .nav-link-custom:hover::before {
+            left: 100%;
+        }
+        
+        .bg-sky-300 {
+            background: linear-gradient(135deg, #667eea, #764ba2) !important;
+            color: white !important;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        h1.title-gradient {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+        
+        .grid-kpi {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                margin: 1rem;
+                padding: 1rem;
+            }
+            
+            .grid-kpi {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-link-custom {
+                padding: 8px 12px;
+                font-size: 0.875rem;
+            }
+        }
     </style>
 </head>
-<body class="bg-gray-100">
-    <!-- Sidebar -->
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-2 p-0">
-                <div class="sidebar text-white p-4">
-                    <h4 class="mb-4"><i class="fas fa-utensils me-2"></i>Comedores</h4>
-                    <nav class="nav flex-column">
-                        <a class="nav-link text-white active mb-2" href="index.html" id="nav-dashboard">
-                            <i class="fas fa-chart-line me-2"></i>Dashboard
-                        </a>
-                        <a class="nav-link text-white-50 mb-2" href="./formulario-comedores/index.html">
-                            <i class="fas fa-store me-2"></i>Comedores
-                        </a>
-                        <a class="nav-link text-white-50 mb-2" href="./registro-beneficiarios/index.html">
-                            <i class="fas fa-users me-2"></i>Beneficiarios
-                        </a>
-                        <a class="nav-link text-white-50 mb-2" href="./entrega-raciones/index.html">
-                            <i class="fas fa-hand-holding-heart me-2"></i>Entregas
-                        </a>
-                    </nav>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="glass-effect shadow-lg sticky top-0 z-50 animate-slide-in-left" role="banner">
+        <nav class="max-w-7xl mx-auto px-6 lg:px-8" role="navigation" aria-label="Navegación principal">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-city text-2xl text-yellow-600 animate-bounce-custom" aria-hidden="true"></i>
+                    <h1 class="text-lg sm:text-xl font-bold text-gray-800 hidden sm:block">Municipalidad Provincial del Callao</h1>
+                    <p class="text-sm font-bold text-gray-800 sm:hidden">MPC</p>
+                </div>
+                <div class="flex space-x-2 sm:space-x-6">
+                    <a href="index.html" class="bg-sky-300 text-gray-700 hover:text-blue-600 px-3 py-2 rounded-lg text-sm font-medium hover-scale nav-link-custom" id="nav-dashboard">
+                        <i class="fas fa-chart-line me-1" aria-hidden="true"></i>Dashboard
+                    </a>
+                    <a class="text-gray-700 hover:text-purple-600 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover-lift nav-link-custom" href="./formulario-comedores/index.html">
+                        <i class="fas fa-utensils mr-1" aria-hidden="true"></i>Comedores
+                    </a>
+                    <a class="text-gray-700 hover:text-purple-600 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover-lift nav-link-custom" href="./registro-beneficiarios/index.html">
+                        <i class="fas fa-user-plus mr-1" aria-hidden="true"></i>Beneficiarios
+                    </a>
+                    <a class="text-gray-700 hover:text-purple-600 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover-lift nav-link-custom" href="./entrega-raciones/index.html">
+                        <i class="fas fa-box mr-1" aria-hidden="true"></i>Entregas
+                    </a>
                 </div>
             </div>
+        </nav>
+    </header>
 
-            <!-- Main Content -->
-            <div class="col-lg-10">
-                <div class="main-content p-4">
-                    <!-- Header -->
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div>
-                            <h1 class="h3 mb-1">Dashboard de Comedores Comunitarios</h1>
-                            <p class="text-muted mb-0">Panel de control y estadísticas generales</p>
+    <main>
+        <!-- Main Content -->
+        <div class="w-full">
+            <div class="main-content p-4">
+                <!-- Header -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+                    <div>
+                        <h1 class="text-3xl font-bold mb-1 title-gradient">Dashboard de Comedores Comunitarios</h1>
+                        <p class="text-gray-600 mb-0">Panel de control y estadísticas generales</p>
+                    </div>
+                    <div class="flex items-center gap-3 mt-4 sm:mt-0">
+                        <!--comentado se analizara-->
+                        <!--  <span class="px-3 py-1 bg-green-500 text-white text-sm rounded-full" id="last-update">Última actualización: --:--</span>
+                              <button class="btn-primary" id="refresh-data">
+                                    <i class="fas fa-sync-alt me-1"></i>Actualizar
+                                </button> -->
+                    </div>
+                </div>
+
+                <!-- Filtros -->
+                <div class="card-custom mb-6 shadow-lg">
+                    <div class="card-header-custom">
+                        <h5 class="text-lg font-semibold mb-0">
+                            <i class="fas fa-filter me-2"></i>Filtros de Búsqueda
+                        </h5>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Fecha Desde</label>
+                                <input type="date" class="form-input" id="filter-fecha-desde" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Fecha Hasta</label>
+                                <input type="date" class="form-input" id="filter-fecha-hasta" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Tipo de Ración</label>
+                                <select class="form-input" id="filter-tipo-racion">
+                                    <option value="">Todos los tipos</option>
+                                    <option value="desayuno">Desayuno</option>
+                                    <option value="almuerzo">Almuerzo</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="d-flex align-items-center gap-3">
-                            <span class="badge bg-success fs-6" id="last-update">Última actualización: --:--</span>
-                            <button class="btn btn-primary" id="refresh-data">
-                                <i class="fas fa-sync-alt me-1"></i>Actualizar
+                        <div class="flex flex-wrap gap-3 mt-6">
+                            <button class="btn-primary" id="apply-filters">
+                                <i class="fas fa-search me-1"></i>Aplicar Filtros
+                            </button>
+                            <button class="btn-secondary" id="clear-filters">
+                                <i class="fas fa-times me-1"></i>Limpiar
                             </button>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Filtros -->
-                    <div class="card mb-4 shadow">
-                        <div class="card-header bg-white">
-                            <h5 class="mb-0"><i class="fas fa-filter me-2"></i>Filtros de Búsqueda</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row g-3">
-                                
-                                <div class="col-md-3">
-                                    <label class="form-label">Fecha Desde</label>
-                                    <input type="date" class="form-control" id="filter-fecha-desde">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">Fecha Hasta</label>
-                                    <input type="date" class="form-control" id="filter-fecha-hasta">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">Tipo de Ración</label>
-                                    <select class="form-select" id="filter-tipo-racion">
-                                        <option value="">Todos los tipos</option>
-                                        <option value="desayuno">Desayuno</option>
-                                        <option value="almuerzo">Almuerzo</option>
-                                    </select>
-                                </div>
+                <!-- Cards de Estadísticas -->
+                <div class="grid-kpi fade-in mb-8">
+                    <!-- Comedores Activos -->
+                    <div class="kpi-card">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="bg-green-100 rounded-lg p-3">
+                                <i class="fas fa-store text-green-600 text-xl"></i>
                             </div>
-                            <div class="row mt-3">
-                                <div class="col-12">
-                                    <button class="btn btn-primary me-2" id="apply-filters">
-                                        <i class="fas fa-search me-1"></i>Aplicar Filtros
-                                    </button>
-                                    <button class="btn btn-outline-secondary" id="clear-filters">
-                                        <i class="fas fa-times me-1"></i>Limpiar
-                                    </button>
-                                </div>
+                        </div>
+                        <div class="text-2xl font-bold text-gray-900 mb-1" id="comedores-activos">0</div>
+                        <div class="text-sm text-gray-600">Comedores Activos</div>
+                        <div class="mt-2 text-xs text-green-600">
+                            <i class="fas fa-arrow-up mr-1"></i>
+                            Operativos
+                        </div>
+                    </div>
+
+                    <!-- Total Beneficiarios -->
+                    <div class="kpi-card">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="bg-blue-100 rounded-lg p-3">
+                                <i class="fas fa-users text-blue-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="text-2xl font-bold text-gray-900 mb-1" id="beneficiarios-total">0</div>
+                        <div class="text-sm text-gray-600">Total Beneficiarios</div>
+                        <div class="mt-2 text-xs text-blue-600">
+                            <i class="fas fa-user-check mr-1"></i>
+                            Registrados
+                        </div>
+                    </div>
+
+                    <!-- Total Raciones -->
+                    <div class="kpi-card">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="bg-purple-100 rounded-lg p-3">
+                                <i class="fas fa-pizza-slice text-purple-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="text-2xl font-bold text-gray-900 mb-1" id="total-raciones">0</div>
+                        <div class="text-sm text-gray-600">Total Raciones</div>
+                        <div class="mt-2 text-xs text-purple-600">
+                            <i class="fas fa-chart-line mr-1"></i>
+                            Acumulado
+                        </div>
+                    </div>
+
+                    <!-- Entregas Hoy -->
+                    <div class="kpi-card">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="bg-yellow-100 rounded-lg p-3">
+                                <i class="fas fa-calendar-day text-yellow-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="text-2xl font-bold text-gray-900 mb-1" id="entregas-hoy">0</div>
+                        <div class="text-sm text-gray-600">Entregas Hoy</div>
+                        <div class="mt-2 text-xs text-yellow-600">
+                            <i class="fas fa-clock mr-1"></i>
+                            Tiempo real
+                        </div>
+                    </div>
+
+                    <!-- Promedio Diario -->
+                    <div class="kpi-card">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="bg-teal-100 rounded-lg p-3">
+                                <i class="fas fa-chart-line text-teal-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="text-2xl font-bold text-gray-900 mb-1" id="promedio-diario">0</div>
+                        <div class="text-sm text-gray-600">Promedio Diario</div>
+                        <div class="mt-2 text-xs text-teal-600">
+                            <i class="fas fa-calculator mr-1"></i>
+                            Estadística
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alertas de Duplicados -->
+                <div class="mb-6" id="alertas-section" style="display: none">
+                    <div class="alert-warning">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                            <div>
+                                <h5 class="text-lg font-semibold mb-1">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>Alertas de Duplicados Detectadas
+                                </h5>
+                                <p class="mb-0 text-sm">
+                                    Se han encontrado posibles beneficiarios duplicados que requieren revisión.
+                                </p>
+                            </div>
+                            <button class="btn-warning whitespace-nowrap" id="view-duplicados">
+                                <i class="fas fa-eye me-1"></i>Ver Detalles
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráficos -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                    <!-- Gráfico de Tipos de Ración -->
+                    <div class="card-custom shadow-lg">
+                        <div class="card-header-custom">
+                            <h5 class="text-lg font-semibold mb-0">
+                                <i class="fas fa-chart-bar me-2"></i>Tipos de Ración Entregadas
+                            </h5>
+                        </div>
+                        <div class="p-6 max-w-lg mx-auto">
+                            <div class="chart-container">
+                                <canvas id="chart-tipos-racion"></canvas>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Cards de Estadísticas -->
-                    <div class="row mb-4">
-                        <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
-                            <div class="card card-gradient-1 text-white shadow hover-scale">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <h4 class="mb-0" id="total-raciones">0</h4>
-                                            <p class="mb-0 small">Total Raciones</p>
-                                        </div>
-                                        <div class="align-self-center">
-                                            <i class="fas fa-utensils fa-2x"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    <!-- Gráfico de Comedores más Activos -->
+                    <div class="card-custom shadow-lg">
+                        <div class="card-header-custom">
+                            <h5 class="text-lg font-semibold mb-0">
+                                <i class="fas fa-chart-bar me-2"></i>Comedores Activos/Inactivos
+                            </h5>
                         </div>
-                        <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
-                            <div class="card card-gradient-2 text-white shadow hover-scale">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <h4 class="mb-0" id="comedores-activos">0</h4>
-                                            <p class="mb-0 small">Comedores Activos</p>
-                                        </div>
-                                        <div class="align-self-center">
-                                            <i class="fas fa-store fa-2x"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
-                            <div class="card card-gradient-3 text-white shadow hover-scale">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <h4 class="mb-0" id="beneficiarios-total">0</h4>
-                                            <p class="mb-0 small">Beneficiarios</p>
-                                        </div>
-                                        <div class="align-self-center">
-                                            <i class="fas fa-users fa-2x"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
-                            <div class="card card-gradient-4 text-white shadow hover-scale">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <h4 class="mb-0" id="entregas-hoy">0</h4>
-                                            <p class="mb-0 small">Entregas Hoy</p>
-                                        </div>
-                                        <div class="align-self-center">
-                                            <i class="fas fa-calendar-day fa-2x"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
-                            <div class="card bg-info text-white shadow hover-scale">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <h4 class="mb-0" id="promedio-diario">0</h4>
-                                            <p class="mb-0 small">Promedio Diario</p>
-                                        </div>
-                                        <div class="align-self-center">
-                                            <i class="fas fa-chart-line fa-2x"></i>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="p-6 max-w-sm mx-auto">
+                            <div class="chart-container">
+                                <canvas id="chart-comedores-activos"></canvas>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Alertas de Duplicados -->
-                    <div class="row mb-4" id="alertas-section" style="display: none;">
-                        <div class="col-12">
-                            <div class="alert alert-warning shadow">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <h5 class="alert-heading mb-1">
-                                            <i class="fas fa-exclamation-triangle me-2"></i>Alertas de Duplicados Detectadas
-                                        </h5>
-                                        <p class="mb-0">Se han encontrado posibles beneficiarios duplicados que requieren revisión.</p>
-                                    </div>
-                                    <button class="btn btn-warning" id="view-duplicados">
-                                        <i class="fas fa-eye me-1"></i>Ver Detalles
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Gráficos -->
-                    <div class="row mb-4">
-                        <!-- Gráfico de Tipos de Ración -->
-                        <div class="col-lg-6 mb-4">
-                            <div class="card shadow">
-                                <div class="card-header bg-white">
-                                    <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Tipos de Ración Entregadas</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-container">
-                                        <canvas id="chart-tipos-racion"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Gráfico de Comedores más Activos -->
-                        <div class="col-lg-6 mb-4">
-                            <div class="card shadow">
-                                <div class="card-header bg-white">
-                                    <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Comedores más Activos</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-container">
-                                        <canvas id="chart-comedores-activos"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Footer -->
-                    <div class="row mt-5">
-                        <div class="col-12">
-                            <div class="text-center text-muted">
-                                <small>
-                                    Dashboard de Comedores Comunitarios © 2025 | 
-                                    Datos actualizados automáticamente cada 5 minutos
-                                </small>
-                            </div>
-                        </div>
+                <!-- Footer -->
+                <div class="mt-12">
+                    <div class="text-center text-gray-500">
+                        <small>
+                            Dashboard de Comedores Comunitarios © 2025 | Datos actualizados automáticamente cada 5 minutos
+                        </small>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
     <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Aquí irá tu JavaScript personalizado -->
+    <script src="dashboard.js"></script>
     <script>
         // Aquí puedes agregar tu código JavaScript personalizado
         // Los elementos están listos para ser manipulados con IDs únicos
-        console.log('Dashboard cargado. Elementos disponibles para JS:');
-        console.log('- Filtros: #filter-zona, #filter-fecha-desde, #filter-fecha-hasta, #filter-tipo-racion');
-        console.log('- Estadísticas: #total-raciones, #comedores-activos, #beneficiarios-total, etc.');
-        console.log('- Gráficos: #chart-entregas-dia, #chart-zonas, #chart-tipos-racion, #chart-comedores-activos');
-        console.log('- Tablas: #tabla-entregas-recientes, #tabla-comedores-estado, #tabla-duplicados');
-        console.log('- Botones: #refresh-data, #apply-filters, #clear-filters, #view-duplicados');
+        console.log("Dashboard cargado. Elementos disponibles para JS:");
+        console.log("- Filtros: #filter-zona, #filter-fecha-desde, #filter-fecha-hasta, #filter-tipo-racion");
+        console.log("- Estadísticas: #total-raciones, #comedores-activos, #beneficiarios-total, etc.");
+        console.log("- Gráficos: #chart-entregas-dia, #chart-zonas, #chart-tipos-racion, #chart-comedores-activos");
+        console.log("- Tablas: #tabla-entregas-recientes, #tabla-comedores-estado, #tabla-duplicados");
+        console.log("- Botones: #refresh-data, #apply-filters, #clear-filters, #view-duplicados");
     </script>
 </body>
 </html>
