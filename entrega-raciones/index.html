@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sistema de registro y control de entrega de raciones - Municipalidad Provincial del Callao">
+  <title>Entrega de Raciones - MPC</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <style>
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Animaciones con @keyframes */
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes slideInLeft {
+      0% {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    @keyframes slideInRight {
+      0% {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 53%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40%, 43% {
+        transform: translateY(-10px);
+      }
+      70% {
+        transform: translateY(-5px);
+      }
+    }
+    
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    
+    @keyframes shake {
+      0%, 100% {
+        transform: translateX(0);
+      }
+      10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-5px);
+      }
+      20%, 40%, 60%, 80% {
+        transform: translateX(5px);
+      }
+    }
+    
+    @keyframes glow {
+      0%, 100% {
+        box-shadow: 0 0 5px rgba(251, 191, 36, 0.3);
+      }
+      50% {
+        box-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+      }
+    }
+    
+    /* Clases de animación */
+    .animate-fade-in-up {
+      animation: fadeInUp 0.8s ease-out;
+    }
+    
+    .animate-slide-in-left {
+      animation: slideInLeft 0.6s ease-out;
+    }
+    
+    .animate-slide-in-right {
+      animation: slideInRight 0.6s ease-out;
+    }
+    
+    .animate-pulse-custom {
+      animation: pulse 2s infinite;
+    }
+    
+    .animate-bounce-custom {
+      animation: bounce 2s infinite;
+    }
+    
+    .animate-spin-slow {
+      animation: spin 3s linear infinite;
+    }
+    
+    .animate-shake {
+      animation: shake 0.5s ease-in-out;
+    }
+    
+    .animate-glow {
+      animation: glow 2s ease-in-out infinite;
+    }
+    
+    /* Hover effects mejorados */
+    .hover-scale {
+      transition: all 0.3s ease;
+    }
+    
+    .hover-scale:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .hover-lift {
+      transition: all 0.3s ease;
+    }
+    
+    .hover-lift:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Efectos de entrada escalonada */
+    .stagger-1 { animation-delay: 0.1s; }
+    .stagger-2 { animation-delay: 0.2s; }
+    .stagger-3 { animation-delay: 0.3s; }
+    .stagger-4 { animation-delay: 0.4s; }
+    
+    /* Mejoras de spacing y padding */
+    .content-padding {
+      padding: 2rem 1rem;
+    }
+    
+    .section-margin {
+      margin-bottom: 3rem;
+    }
+    
+    .card-padding {
+      padding: 2rem;
+    }
+    
+    .form-spacing {
+      gap: 1.5rem;
+    }
+    
+    .input-padding {
+      padding: 0.875rem 1rem;
+    }
+    
+    .button-padding {
+      padding: 0.875rem 1.5rem;
+    }
+    
+    @media (max-width: 640px) {
+      .content-padding {
+        padding: 1rem 0.5rem;
+      }
+      
+      .card-padding {
+        padding: 1.5rem;
+      }
+      
+      .input-padding {
+        padding: 0.75rem;
+      }
+      
+      .button-padding {
+        padding: 0.75rem 1rem;
+      }
+    }
+    
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white !important; }
+      * { animation: none !important; }
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-100 min-h-screen text-gray-800">
+  <!-- Header -->
+  <header class="glass-effect shadow-lg sticky top-0 z-50 animate-slide-in-left" role="banner">
+    <nav class="max-w-7xl mx-auto px-6 lg:px-8" role="navigation" aria-label="Navegación principal">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center space-x-3">
+          <i class="fas fa-city text-2xl text-yellow-600 animate-bounce-custom" aria-hidden="true"></i>
+          <h1 class="text-lg sm:text-xl font-bold text-gray-800 hidden sm:block">
+            Municipalidad Provincial del Callao
+          </h1>
+          <h1 class="text-sm font-bold text-gray-800 sm:hidden">MPC</h1>
+        </div>
+        <div class="flex space-x-2 sm:space-x-6">
+          <a href="../index.html" onclick="navegarA('dashboard')" class="bg-sky-300 text-gray-700 hover:text-blue-600 px-3 py-2 rounded-lg text-sm font-medium hover-scale">
+            <span class="hidden sm:inline">Inicio</span>
+          </a>
+          <a href="../formulario-comedores/index.html" class="text-gray-700 hover:text-purple-600 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover-lift">
+            <i class="fas fa-utensils mr-1" aria-hidden="true"></i>
+            <span class="hidden sm:inline">Comedores</span>
+          </a>
+          <a href="../registro-beneficiarios/index.html" class="text-gray-700 hover:text-purple-600 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover-lift">
+            <i class="fas fa-user-plus mr-1" aria-hidden="true"></i>
+            <span class="hidden sm:inline">Registro</span>
+          </a>
+          <a href="../entrega-raciones/index.html" class="bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm font-medium animate-glow" aria-current="page">
+            <i class="fas fa-box mr-1" aria-hidden="true"></i>
+            <span class="hidden sm:inline">Raciones</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Contenido principal -->
+  <main class="max-w-7xl mx-auto content-padding">
+    <!-- Sección de encabezado -->
+    <section class="section-margin animate-fade-in-up">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+          <i class="fas fa-box text-yellow-600 mr-3 animate-spin-slow" aria-hidden="true"></i>
+          Sistema de Entrega de Raciones
+        </h2>
+        <p class="text-gray-600 text-lg max-w-3xl mx-auto leading-relaxed px-4">
+          Registra y controla la entrega diaria de raciones alimentarias a los beneficiarios del programa social.
+        </p>
+      </div>
+    </section>
+
+    <!-- Estadísticas rápidas -->
+    <section class="section-margin animate-fade-in-up" aria-labelledby="estadisticas-titulo">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        
+        <div class="bg-white rounded-xl shadow-lg card-padding text-center hover-scale animate-fade-in-up stagger-1">
+          <i class="fas fa-users text-3xl text-blue-600 mb-3 animate-pulse-custom"></i>
+          <h3 class="text-2xl font-bold text-gray-900 mb-2" id="totalBeneficiarios">0</h3>
+          <p class="text-gray-600">Total Beneficiarios</p>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-lg card-padding text-center hover-scale animate-fade-in-up stagger-2">
+          <i class="fas fa-coffee text-3xl text-amber-900 mb-3 animate-pulse-custom"></i>
+          <h3 class="text-2xl font-bold text-gray-900 mb-2" id="totalDesayunos">0</h3>
+          <p class="text-gray-600">Desayunos</p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg card-padding text-center hover-scale animate-fade-in-up stagger-3">
+          <i class="fas fa-utensils text-3xl text-green-600 mb-3 animate-pulse-custom" aria-hidden="true"></i>
+          <h3 class="text-2xl font-bold text-gray-900 mb-2" id="totalAlmuerzos">0</h3>
+          <p class="text-gray-600">Almuerzos</p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg card-padding text-center hover-scale animate-fade-in-up stagger-4">
+          <i class="fas fa-chart-line text-3xl text-red-600 mb-3 animate-pulse-custom" aria-hidden="true"></i>
+          <h3 class="text-2xl font-bold text-gray-900 mb-2" id="totalRaciones">0</h3>
+          <p class="text-gray-600">Total de Raciones</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Formulario de registro -->
+    <section class="bg-white rounded-2xl shadow-xl card-padding mb-8 animate-slide-in-right">
+      <div class="mb-8">
+        <h3 id="formulario-titulo" class="text-2xl font-bold text-gray-800 mb-2">
+          <i class="fas fa-plus-circle mr-2 text-yellow-600" aria-hidden="true"></i>
+          Registrar Nueva Entrega
+        </h3>
+      </div>
+
+      <form id="formRaciones" class="grid grid-cols-1 md:grid-cols-3 form-spacing bg-gradient-to-r from-purple-50 to-indigo-50 p-8 rounded-xl shadow-inner border border-purple-100" novalidate>
+        <fieldset class="contents">
+          <legend class="sr-only">Información de la entrega de ración</legend>
+          
+
+          <div class="flex flex-col space-y-2">
+            <label for="dni" class="font-medium text-gray-700 flex items-center">
+              <i class="fas fa-id-card mr-2" aria-hidden="true"></i>
+              DNI del Beneficiario
+            </label>
+            <input 
+              type="text" 
+              name="dni" 
+              id="dni" 
+              placeholder="Ej: 12345678" 
+              class="border border-gray-300 input-padding rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300" 
+              required 
+              pattern="[0-9]{8}"
+              maxlength="8"
+              aria-describedby="dni-error dni-help"
+            >
+            <span id="dni-help" class="text-gray-500 text-xs">Ingrese 8 dígitos</span>
+            <span id="dni-error" class="text-red-500 text-xs hidden" role="alert"></span>
+          </div>
+
+          <div class="flex flex-col space-y-2">
+            <label for="nombre" class="font-medium text-gray-700 flex items-center">
+              <i class="fas fa-user mr-2" aria-hidden="true"></i>
+              Nombre Completo
+            </label>
+            <input 
+              type="text" 
+              name="nombre" 
+              id="nombre" 
+              placeholder="Nombre completo del beneficiario" 
+              class="border border-gray-300 input-padding rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300" 
+              required
+              aria-describedby="nombre-error"
+            >
+            <span id="nombre-error" class="text-red-500 text-xs hidden" role="alert"></span>
+          </div>
+
+          <div class="flex flex-col space-y-2">
+            <label for="tipoDeRacion" class="font-medium text-gray-700 flex items-center">
+              <i class="fas fa-utensils mr-2" aria-hidden="true"></i>
+              Tipo de Ración
+            </label>
+            <select 
+              name="tipoDeRacion" 
+              id="tipoDeRacion" 
+              class="border border-gray-300 input-padding rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300" 
+              required
+              aria-describedby="tipo-error"
+            >
+              <option value="">Seleccione una opción</option>
+              <option value="desayuno">Desayuno</option>
+              <option value="almuerzo">Almuerzo</option>
+            </select>
+            <span id="tipo-error" class="text-red-500 text-xs hidden" role="alert"></span>
+          </div>
+
+          <div class="flex flex-col space-y-2">
+            <label for="comedor" class="font-medium text-gray-700 flex items-center">
+              <i class="fas fa-home mr-2" aria-hidden="true"></i>
+              Comedor Asignado
+            </label>
+            <select 
+              name="comedor" 
+              id="comedor" 
+              class="border border-gray-300 input-padding rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300" 
+              required
+              aria-describedby="comedor-error"
+            >
+              <option value="">Seleccione un comedor</option>
+            </select>
+            <span id="comedor-error" class="text-red-500 text-xs hidden" role="alert"></span>
+          </div>
+        </fieldset>
+
+        <div class="md:col-span-3 flex gap-4 mt-6">
+          <button 
+            type="submit" 
+            class="flex-1 bg-gradient-to-r from-yellow-600 to-yellow-700 text-white button-padding rounded-lg hover:from-yellow-700 hover:to-yellow-800 transition-all duration-300 font-semibold hover-lift"
+          >
+            <i class="fas fa-save mr-2" aria-hidden="true"></i>
+            Registrar Entrega
+          </button>
+          <button 
+            type="button" 
+            id="btnLimpiar"
+            class="bg-gray-500 hover:bg-gray-600 text-white font-bold button-padding rounded-md transition-all duration-300 hover-lift"
+          >
+            <i class="fas fa-eraser mr-2" aria-hidden="true"></i>
+            Limpiar
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Controles de tabla -->
+    <section class="bg-white rounded-2xl shadow-xl card-padding mb-6 animate-slide-in-left">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        
+        <div class="flex items-center">
+          <i class="fas fa-table text-yellow-600 mr-2"></i>
+          <h3 class="text-2xl font-bold text-gray-900">Historial de Entregas</h3>
+        </div>
+
+        <div class="flex gap-3">
+          <button 
+            id="btnFiltrar" 
+            class="bg-blue-500 hover:bg-blue-600 text-white button-padding rounded-md transition-all duration-300 text-sm hover-lift"
+          >
+            <i class="fas fa-filter mr-1" aria-hidden="true"></i>
+            Filtrar
+          </button>
+          <button 
+            id="btnExportar" 
+            class="bg-green-500 hover:bg-green-600 text-white button-padding rounded-md transition-all duration-300 text-sm hover-lift"
+          >
+            <i class="fas fa-download mr-1" aria-hidden="true"></i>
+            Exportar
+          </button>
+          <button 
+            id="btnImprimir" 
+            class="bg-gray-500 hover:bg-gray-600 text-white button-padding rounded-md transition-all duration-300 text-sm hover-lift"
+            onclick="window.print()"
+          >
+            <i class="fas fa-print mr-1" aria-hidden="true"></i>
+            Imprimir
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filtros -->
+    <section id="filtrosSeccion" class="mb-8 no-print hidden animate-fade-in-up">
+      <div class="bg-gray-50 p-6 rounded-lg border shadow-md">
+        <h4 class="font-semibold text-gray-700 mb-4">Filtros de Búsqueda</h4>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <input type="date" id="filtroFecha" class="border input-padding rounded transition-all duration-300 focus:ring-2 focus:ring-blue-500" placeholder="Filtrar por fecha">
+          <select id="filtroComedor" class="border input-padding rounded transition-all duration-300 focus:ring-2 focus:ring-blue-500">
+            <option value="">Todos los comedores</option>
+            <option value="Central">Comedor Central</option>
+            <option value="Bellavista">Comedor Bellavista</option>
+            <option value="Carmen de la Legua">Comedor Carmen de la Legua</option>
+            <option value="La Perla">Comedor La Perla</option>
+            <option value="Ventanilla">Comedor Ventanilla</option>
+          </select>
+          <select id="filtroTipo" class="border input-padding rounded transition-all duration-300 focus:ring-2 focus:ring-blue-500">
+            <option value="">Todos los tipos</option>
+            <option value="desayuno">Desayuno</option>
+            <option value="almuerzo">Almuerzo</option>
+          </select>
+          <input type="text" id="filtroDNI" class="border input-padding rounded transition-all duration-300 focus:ring-2 focus:ring-blue-500" placeholder="Filtrar por DNI">
+        </div>
+        <div class="mt-4 flex gap-3">
+          <button id="aplicarFiltros" class="bg-blue-500 text-white button-padding rounded text-sm transition-all duration-300 hover:bg-blue-600 hover-lift">Aplicar</button>
+          <button id="limpiarFiltros" class="bg-gray-500 text-white button-padding rounded text-sm transition-all duration-300 hover:bg-gray-600 hover-lift">Limpiar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tabla de entregas -->
+    <section aria-labelledby="tabla-titulo" class="animate-fade-in-up">
+      <div class="overflow-x-auto bg-white rounded-lg shadow-lg border border-gray-200">
+        <table class="w-full text-sm border-collapse" id="tablaEntregas" role="table">
+          <caption class="sr-only">Tabla de entregas de raciones registradas</caption>
+          <thead class="bg-gradient-to-r from-purple-100 to-indigo-100 text-gray-900">
+            <tr role="row">
+              <th scope="col" class="px-6 py-4 text-left font-semibold border-b border-purple-200 min-w-[80px]">
+                <i class="fas fa-hashtag mr-1" aria-hidden="true"></i>
+                #
+              </th>
+              <th scope="col" class="px-6 py-4 text-left font-semibold border-b border-purple-200 min-w-[100px]">
+                <i class="fas fa-id-card mr-1" aria-hidden="true"></i>
+                DNI
+              </th>
+              <th scope="col" class="px-6 py-4 text-left font-semibold border-b border-purple-200 min-w-[200px]">
+                <i class="fas fa-user mr-1" aria-hidden="true"></i>
+                Beneficiario
+              </th>
+              <th scope="col" class="px-6 py-4 text-left font-semibold border-b border-purple-200 min-w-[120px]">
+                <i class="fas fa-calendar mr-1" aria-hidden="true"></i>
+                Fecha
+              </th>
+              <th scope="col" class="px-6 py-4 text-left font-semibold border-b border-purple-200 min-w-[100px]">
+                <i class="fas fa-clock mr-1" aria-hidden="true"></i>
+                Hora
+              </th>
+              <th scope="col" class="px-6 py-4 text-left font-semibold border-b border-purple-200 min-w-[120px]">
+                <i class="fas fa-utensils mr-1" aria-hidden="true"></i>
+                Tipo
+              </th>
+              <th scope="col" class="px-6 py-4 text-left font-semibold border-b border-purple-200 min-w-[150px]">
+                <i class="fas fa-home mr-1" aria-hidden="true"></i>
+                Comedor
+              </th>
+              <th scope="col" class="px-6 py-4 text-left font-semibold border-b border-purple-200 min-w-[120px] no-print">
+                <i class="fas fa-cogs mr-1" aria-hidden="true"></i>
+                Acciones
+              </th>
+            </tr>
+          </thead>
+          <tbody id="tablaRaciones" class="bg-white divide-y divide-gray-200">
+            <tr id="filaVacia">
+              <td colspan="8" class="px-6 py-12 text-center text-gray-500">
+                <i class="fas fa-inbox text-4xl mb-4 text-gray-300 animate-bounce-custom" aria-hidden="true"></i>
+                <p class="text-lg mb-2">No hay entregas registradas</p>
+                <p class="text-sm">Utilice el formulario superior para registrar la primera entrega</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-16 bg-gradient-to-r from-gray-800 to-gray-900 text-gray-300 py-12 animate-fade-in-up" role="contentinfo">
+    <div class="max-w-4xl mx-auto px-8">
+      <div class="text-center space-y-6">
+        <div class="flex justify-center items-center space-x-2">
+          <i class="fas fa-graduation-cap text-yellow-400 animate-pulse-custom" aria-hidden="true"></i>
+          <h4 class="text-lg font-semibold tracking-wide text-gray-200">
+            Proyecto Final del Curso Code 201
+          </h4>
+        </div>
+        <div class="border-t border-gray-700 pt-6">
+          <p class="text-sm mb-2">
+            © 2025 Municipalidad Provincial del Callao. Todos los derechos reservados.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+  // Agregar este script al HTML (antes de registros.js)
+document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>');
+document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>');
+
+  <script src="registros.js"></script>
+</body>
+</html>
