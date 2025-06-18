@@ -85,6 +85,23 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Cargar datos al iniciar
     actualizarTabla();
+
+    // Delegar evento para eliminar una entrega específica
+tabla.addEventListener('click', function(e) {
+    if (e.target.closest('.btn-eliminar')) {
+        const id = e.target.closest('.btn-eliminar').getAttribute('data-id');
+
+        if (confirm('¿Deseas eliminar este registro de entrega?')) {
+            // Filtrar el array eliminando el que tiene ese ID
+            entregas = entregas.filter(entrega => entrega.id != id);
+
+            // Actualizar localStorage y tabla
+            localStorage.setItem('entregas', JSON.stringify(entregas));
+            actualizarTabla();
+        }
+    }
+});
+
 });
 
 
