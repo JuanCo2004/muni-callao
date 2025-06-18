@@ -1,446 +1,357 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard - Comedores Comunitarios</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
-        .card-gradient-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        .card-gradient-2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
-        .card-gradient-3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
-        .card-gradient-4 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
-        .card-gradient-5 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
-        .hover-scale { transition: transform 0.2s ease-in-out; }
-        .hover-scale:hover { transform: scale(1.02); }
-        .chart-container { position: relative; height: 300px; }
-        .alert-pulse { animation: pulse 2s infinite; }
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
+      .card-gradient-1 {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      .card-gradient-2 {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      }
+      .card-gradient-3 {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      }
+      .card-gradient-4 {
+        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      }
+      .card-gradient-5 {
+        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      }
+      .hover-scale {
+        transition: transform 0.2s ease-in-out;
+      }
+      .hover-scale:hover {
+        transform: scale(1.02);
+      }
+      .chart-container {
+        position: relative;
+        height: 300px;
+      }
+      .alert-pulse {
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0% {
+          opacity: 1;
         }
-        .sidebar { min-height: 100vh; background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%); }
-        .main-content { min-height: 100vh; background-color: #f8f9fa; }
+        50% {
+          opacity: 0.7;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+      .sidebar {
+        min-height: 100vh;
+        background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+      }
+      .main-content {
+        min-height: 100vh;
+        background-color: #f8f9fa;
+      }
     </style>
-</head>
-<body class="bg-gray-100">
+  </head>
+  <body class="bg-gray-100">
     <!-- Sidebar -->
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-2 p-0">
-                <div class="sidebar text-white p-4">
-                    <h4 class="mb-4"><i class="fas fa-utensils me-2"></i>Comedores</h4>
-                    <nav class="nav flex-column">
-                        <a class="nav-link text-white active mb-2" href="index.html" id="nav-dashboard">
-                            <i class="fas fa-chart-line me-2"></i>Dashboard
-                        </a>
-                        <a class="nav-link text-white-50 mb-2" href="./formulario-comedores/index.html">
-                            <i class="fas fa-store me-2"></i>Comedores
-                        </a>
-                        <a class="nav-link text-white-50 mb-2" href="./registro-beneficiarios/index.html">
-                            <i class="fas fa-users me-2"></i>Beneficiarios
-                        </a>
-                        <a class="nav-link text-white-50 mb-2" href="./entrega-raciones/index.html">
-                            <i class="fas fa-hand-holding-heart me-2"></i>Entregas
-                        </a>
-                    </nav>
-                </div>
-            </div>
+      <div class="row">
+        <div class="col-lg-2 p-0">
+          <div class="sidebar text-white p-4">
+            <h4 class="mb-4"><i class="fas fa-utensils me-2"></i>Comedores</h4>
+            <nav class="nav flex-column">
+              <a
+                class="nav-link text-white active mb-2"
+                href="index.html"
+                id="nav-dashboard"
+              >
+                <i class="fas fa-chart-line me-2"></i>Dashboard
+              </a>
+              <a
+                class="nav-link text-white-50 mb-2"
+                href="./formulario-comedores/index.html"
+              >
+                <i class="fas fa-store me-2"></i>Comedores
+              </a>
+              <a
+                class="nav-link text-white-50 mb-2"
+                href="./registro-beneficiarios/index.html"
+              >
+                <i class="fas fa-users me-2"></i>Beneficiarios
+              </a>
+              <a
+                class="nav-link text-white-50 mb-2"
+                href="./entrega-raciones/index.html"
+              >
+                <i class="fas fa-hand-holding-heart me-2"></i>Entregas
+              </a>
+            </nav>
+          </div>
+        </div>
 
-            <!-- Main Content -->
-            <div class="col-lg-10">
-                <div class="main-content p-4">
-                    <!-- Header -->
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div>
-                            <h1 class="h3 mb-1">Dashboard de Comedores Comunitarios</h1>
-                            <p class="text-muted mb-0">Panel de control y estadísticas generales</p>
-                        </div>
-                          <div class="d-flex align-items-center gap-3">
-                          <!--comentado se analizara-->
-                            <!--  <span class="badge bg-success fs-6" id="last-update">Última actualización: --:--</span>
+        <!-- Main Content -->
+        <div class="col-lg-10">
+          <div class="main-content p-4">
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <div>
+                <h1 class="h3 mb-1">Dashboard de Comedores Comunitarios</h1>
+                <p class="text-muted mb-0">
+                  Panel de control y estadísticas generales
+                </p>
+              </div>
+              <div class="d-flex align-items-center gap-3">
+                <!--comentado se analizara-->
+                <!--  <span class="badge bg-success fs-6" id="last-update">Última actualización: --:--</span>
                           <button class="btn btn-primary" id="refresh-data">
                                 <i class="fas fa-sync-alt me-1"></i>Actualizar
                             </button> -->
-                        </div>
-                    </div>
-
-                    <!-- Filtros -->
-                    <div class="card mb-4 shadow">
-                        <div class="card-header bg-white">
-                            <h5 class="mb-0"><i class="fas fa-filter me-2"></i>Filtros de Búsqueda</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row g-3">
-                                <div class="col-md-3">
-                                    <label class="form-label">Zona</label>
-                                    <select class="form-select" id="filter-zona">
-                                        <option value="">Todas las zonas</option>
-                                        <option value="norte">Norte</option>
-                                        <option value="sur">Sur</option>
-                                        <option value="este">Este</option>
-                                        <option value="oeste">Oeste</option>
-                                        <option value="centro">Centro</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">Fecha Desde</label>
-                                    <input type="date" class="form-control" id="filter-fecha-desde">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">Fecha Hasta</label>
-                                    <input type="date" class="form-control" id="filter-fecha-hasta">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">Tipo de Ración</label>
-                                    <select class="form-select" id="filter-tipo-racion">
-                                        <option value="">Todos los tipos</option>
-                                        <option value="desayuno">Desayuno</option>
-                                        <option value="almuerzo">Almuerzo</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-12">
-                                    <button class="btn btn-primary me-2" id="apply-filters">
-                                        <i class="fas fa-search me-1"></i>Aplicar Filtros
-                                    </button>
-                                    <button class="btn btn-outline-secondary" id="clear-filters">
-                                        <i class="fas fa-times me-1"></i>Limpiar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Cards de Estadísticas -->
-                    <div class="row mb-4">
-                        <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
-                            <div class="card card-gradient-1 text-white shadow hover-scale">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <p class="mb-0 small">Total Raciones</p>
-                                            <h4 class="mb-0" id="total-raciones">0</h4>                                           
-                                        </div>
-                                        <div class="align-self-center">
-                                            <i class="fas fa-utensils fa-2x"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
-                            <div class="card card-gradient-2 text-white shadow hover-scale">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <p class="mb-0 small">Comedores Activos</p>
-                                            <h4 class="mb-0" id="comedores-activos">0</h4>                                           
-                                        </div>
-                                        <div class="align-self-center">
-                                            <i class="fas fa-store fa-2x"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
-                            <div class="card card-gradient-3 text-white shadow hover-scale">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                             <p class="mb-0 small">Beneficiarios</p>
-                                            <h4 class="mb-0" id="beneficiarios-total">0</h4>                                       
-                                        </div>
-                                        <div class="align-self-center">
-                                            <i class="fas fa-users fa-2x"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
-                            <div class="card card-gradient-4 text-white shadow hover-scale">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <p class="mb-0 small">Entregas Hoy</p>
-                                            <h4 class="mb-0" id="entregas-hoy">0</h4>                                         
-                                        </div>
-                                        <div class="align-self-center">
-                                            <i class="fas fa-calendar-day fa-2x"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
-                            <div class="card card-gradient-5 text-white shadow hover-scale alert-pulse" id="card-duplicados">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                             <p class="mb-0 small">Alertas Duplicados</p>
-                                            <h4 class="mb-0" id="alertas-duplicados">0</h4>                                        
-                                        </div>
-                                        <div class="align-self-center">
-                                            <i class="fas fa-exclamation-triangle fa-2x"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
-                            <div class="card bg-info text-white shadow hover-scale">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <div>                                         
-                                            <p class="mb-0 small">Promedio Diario</p>
-                                            <h4 class="mb-0" id="promedio-diario">0</h4>
-                                        </div>
-                                        <div class="align-self-center">
-                                            <i class="fas fa-chart-line fa-2x"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Alertas de Duplicados -->
-                    <div class="row mb-4" id="alertas-section" style="display: none;">
-                        <div class="col-12">
-                            <div class="alert alert-warning shadow">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <h5 class="alert-heading mb-1">
-                                            <i class="fas fa-exclamation-triangle me-2"></i>Alertas de Duplicados Detectadas
-                                        </h5>
-                                        <p class="mb-0">Se han encontrado posibles beneficiarios duplicados que requieren revisión.</p>
-                                    </div>
-                                    <button class="btn btn-warning" id="view-duplicados">
-                                        <i class="fas fa-eye me-1"></i>Ver Detalles
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Gráficos -->
-                    
-                    <div class="row mb-4">
-                        
-                        <!-- Gráfico de cantidad de beneficiarios x comedor-->
-                         <div class="col-lg-6 mb-4">
-                            <div class="card shadow">
-                                <div class="card-header bg-white">
-                                    <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Gráfico de Cantidad Beneficiarios x Comedor</h5>
-                                </div>
-                                <div class="card-body" style="max-width: 50%;margin-left: 200px; ">
-                                    <div class="chart-container">
-                                        <canvas id="chart-beneficiarios-comedor"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Gráfico de Entregas por Día -->
-                        <!--<div class="col-lg-6 mb-4">
-                            <div class="card shadow">
-                                <div class="card-header bg-white">
-                                    <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Entregas por Día (Últimos 7 días)</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-container">
-                                        <canvas id="chart-entregas-dia"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
-
-                        <!-- Gráfico de Distribución por Zona -->
-                        <div class="col-lg-6 mb-4">
-                            <div class="card shadow">
-                                <div class="card-header bg-white">
-                                    <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Distribución por Zona</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-container">
-                                        <canvas id="chart-zonas"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mb-4">
-                        <!-- Gráfico de Tipos de Ración -->
-                        <div class="col-lg-6 mb-4">
-                            <div class="card shadow">
-                                <div class="card-header bg-white">
-                                    <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Tipos de Ración Entregadas</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-container">
-                                        <canvas id="chart-tipos-racion"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Gráfico de Comedores más Activos -->
-                        <div class="col-lg-6 mb-4">
-                            <div class="card shadow">
-                                <div class="card-header bg-white">
-                                    <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Comedores Activos/Inactivos</h5>
-                                </div>
-                                <div class ="card-body" style="max-width: 300px; margin: auto;">
-                                    <div class="chart-container">
-                                        <canvas id="chart-comedores-activos"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Tablas de Resumen -->
-                    <div class="row">
-                        <!-- Resumen de Entregas Recientes -->
-                        <div class="col-lg-6 mb-4">
-                            <div class="card shadow">
-                                <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                                    <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Entregas Recientes</h5>
-                                    <a href="entrega-raciones.html" class="btn btn-sm btn-outline-primary">Ver Todas</a>
-                                </div>
-                                <div class="card-body p-0">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover mb-0">
-                                            <thead class="table-light">
-                                                <tr>
-                                                    <th>Fecha</th>
-                                                    <th>Comedor</th>
-                                                    <th>Tipo</th>
-                                                    <th>Cantidad</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tabla-entregas-recientes">
-                                                <tr>
-                                                    <td colspan="4" class="text-center text-muted py-4">
-                                                        <i class="fas fa-spinner fa-spin me-2"></i>Cargando datos...
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Estados de Comedores -->
-                        <div class="col-lg-6 mb-4">
-                            <div class="card shadow">
-                                <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                                    <h5 class="mb-0"><i class="fas fa-store me-2"></i>Estado de Comedores</h5>
-                                    <a href="comedores.html" class="btn btn-sm btn-outline-primary">Ver Todos</a>
-                                </div>
-                                <div class="card-body p-0">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover mb-0">
-                                            <thead class="table-light">
-                                                <tr>
-                                                    <th>Comedor</th>
-                                                    <th>Zona</th>
-                                                    <th>Estado</th>
-                                                    <th>Entregas Hoy</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tabla-comedores-estado">
-                                                <tr>
-                                                    <td colspan="4" class="text-center text-muted py-4">
-                                                        <i class="fas fa-spinner fa-spin me-2"></i>Cargando datos...
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Modal para Detalles de Duplicados -->
-                    <div class="modal fade" id="modal-duplicados" tabindex="-1">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">
-                                        <i class="fas fa-exclamation-triangle text-warning me-2"></i>
-                                        Alertas de Duplicados
-                                    </h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>DNI</th>
-                                                    <th>Nombre</th>
-                                                    <th>Comedores</th>
-                                                    <th>Fechas</th>
-                                                    <th>Acción</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tabla-duplicados">
-                                                <!-- Se llena dinámicamente con JS -->
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="button" class="btn btn-warning" id="resolver-duplicados">
-                                        <i class="fas fa-check me-1"></i>Marcar como Resuelto
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Footer -->
-                    <div class="row mt-5">
-                        <div class="col-12">
-                            <div class="text-center text-muted">
-                                <small>
-                                    Dashboard de Comedores Comunitarios © 2025 | 
-                                    Datos actualizados automáticamente cada 5 minutos
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
+
+            <!-- Filtros -->
+            <div class="card mb-4 shadow">
+              <div class="card-header bg-white">
+                <h5 class="mb-0">
+                  <i class="fas fa-filter me-2"></i>Filtros de Búsqueda
+                </h5>
+              </div>
+              <div class="card-body">
+                <div class="row g-3">
+                  <div class="col-md-3">
+                    <label class="form-label">Fecha Desde</label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="filter-fecha-desde"
+                    />
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">Fecha Hasta</label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="filter-fecha-hasta"
+                    />
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label">Tipo de Ración</label>
+                    <select class="form-select" id="filter-tipo-racion">
+                      <option value="">Todos los tipos</option>
+                      <option value="desayuno">Desayuno</option>
+                      <option value="almuerzo">Almuerzo</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <div class="col-12">
+                    <button class="btn btn-primary me-2" id="apply-filters">
+                      <i class="fas fa-search me-1"></i>Aplicar Filtros
+                    </button>
+                    <button
+                      class="btn btn-outline-secondary"
+                      id="clear-filters"
+                    >
+                      <i class="fas fa-times me-1"></i>Limpiar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cards de Estadísticas -->
+            <div class="row mb-4">
+              <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+                <div class="card card-gradient-1 text-white shadow hover-scale">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <p class="mb-0 small">Total Raciones</p>
+                        <h4 class="mb-0" id="total-raciones">0</h4>
+                      </div>
+                      <div class="align-self-center">
+                        <i class="fas fa-utensils fa-2x"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+                <div class="card card-gradient-2 text-white shadow hover-scale">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <p class="mb-0 small">Comedores Activos</p>
+                        <h4 class="mb-0" id="comedores-activos">0</h4>
+                      </div>
+                      <div class="align-self-center">
+                        <i class="fas fa-store fa-2x"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+                <div class="card card-gradient-3 text-white shadow hover-scale">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <p class="mb-0 small">Beneficiarios</p>
+                        <h4 class="mb-0" id="beneficiarios-total">0</h4>
+                      </div>
+                      <div class="align-self-center">
+                        <i class="fas fa-users fa-2x"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+                <div class="card card-gradient-4 text-white shadow hover-scale">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <p class="mb-0 small">Entregas Hoy</p>
+                        <h4 class="mb-0" id="entregas-hoy">0</h4>
+                      </div>
+                      <div class="align-self-center">
+                        <i class="fas fa-calendar-day fa-2x"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
+                <div class="card bg-info text-white shadow hover-scale">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <p class="mb-0 small">Promedio Diario</p>
+                        <h4 class="mb-0" id="promedio-diario">0</h4>
+                      </div>
+                      <div class="align-self-center">
+                        <i class="fas fa-chart-line fa-2x"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Alertas de Duplicados -->
+            <div class="row mb-4" id="alertas-section" style="display: none">
+              <div class="col-12">
+                <div class="alert alert-warning shadow">
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <div>
+                      <h5 class="alert-heading mb-1">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Alertas
+                        de Duplicados Detectadas
+                      </h5>
+                      <p class="mb-0">
+                        Se han encontrado posibles beneficiarios duplicados que
+                        requieren revisión.
+                      </p>
+                    </div>
+                    <button class="btn btn-warning" id="view-duplicados">
+                      <i class="fas fa-eye me-1"></i>Ver Detalles
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Gráficos -->
+
+            <div class="row mb-4">
+              <!-- Gráfico de Tipos de Ración -->
+              <div class="col-lg-6 mb-4">
+                <div class="card shadow">
+                  <div class="card-header bg-white">
+                    <h5 class="mb-0">
+                      <i class="fas fa-chart-bar me-2"></i>Tipos de Ración
+                      Entregadas
+                    </h5>
+                  </div>
+                  <div class="card-body" style="max-width: 500px">
+                    <div class="chart-container">
+                      <canvas id="chart-tipos-racion"></canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Gráfico de Comedores más Activos -->
+              <div class="col-lg-6 mb-4">
+                <div class="card shadow">
+                  <div class="card-header bg-white">
+                    <h5 class="mb-0">
+                      <i class="fas fa-chart-bar me-2"></i>Comedores
+                      Activos/Inactivos
+                    </h5>
+                  </div>
+                  <div class="card-body" style="max-width: 300px; margin: auto">
+                    <div class="chart-container">
+                      <canvas id="chart-comedores-activos"></canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Footer -->
+            <div class="row mt-5">
+              <div class="col-12">
+                <div class="text-center text-muted">
+                  <small>
+                    Dashboard de Comedores Comunitarios © 2025 | Datos
+                    actualizados automáticamente cada 5 minutos
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    
+
     <script src="dashboard.js"></script>
     <!-- Aquí irá tu JavaScript personalizado -->
     <script>
-        // Aquí puedes agregar tu código JavaScript personalizado
-        // Los elementos están listos para ser manipulados con IDs únicos
-        console.log('Dashboard cargado. Elementos disponibles para JS:');
-        console.log('- Filtros: #filter-zona, #filter-fecha-desde, #filter-fecha-hasta, #filter-tipo-racion');
-        console.log('- Estadísticas: #total-raciones, #comedores-activos, #beneficiarios-total, etc.');
-        console.log('- Gráficos: #chart-entregas-dia, #chart-zonas, #chart-tipos-racion, #chart-comedores-activos');
-        console.log('- Tablas: #tabla-entregas-recientes, #tabla-comedores-estado, #tabla-duplicados');
-        console.log('- Botones: #refresh-data, #apply-filters, #clear-filters, #view-duplicados');
+      // Aquí puedes agregar tu código JavaScript personalizado
+      // Los elementos están listos para ser manipulados con IDs únicos
+      console.log("Dashboard cargado. Elementos disponibles para JS:");
+      console.log(
+        "- Filtros: #filter-zona, #filter-fecha-desde, #filter-fecha-hasta, #filter-tipo-racion"
+      );
+      console.log(
+        "- Estadísticas: #total-raciones, #comedores-activos, #beneficiarios-total, etc."
+      );
+      console.log(
+        "- Gráficos: #chart-entregas-dia, #chart-zonas, #chart-tipos-racion, #chart-comedores-activos"
+      );
+      console.log(
+        "- Tablas: #tabla-entregas-recientes, #tabla-comedores-estado, #tabla-duplicados"
+      );
+      console.log(
+        "- Botones: #refresh-data, #apply-filters, #clear-filters, #view-duplicados"
+      );
     </script>
-</body>
+  </body>
 </html>

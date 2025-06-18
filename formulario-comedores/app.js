@@ -203,11 +203,29 @@ formComedor.addEventListener('submit', function (e) {
     activo: true,
   };
 
-  // Validación básica
-  if (comedor.capacidad <= 0 || isNaN(comedor.capacidad)) {
-    mostrarNotificacion('La capacidad debe ser un número válido mayor a 0.', 'error');
+  // Validación para la capacidad del comerdor 
+  if (isNaN(comedor.capacidad)) {
+    mostrarNotificacion('La capacidad debe ser un número válido mayor a 10.', 'error');
     return;
   }
+
+  // Validación de duplicados
+const nombreRepetido = listaComedores.some(c => c.nombre.toLowerCase() === nombre.toLowerCase());
+const encargadoRepetido = listaComedores.some(c => c.encargado.toLowerCase() === encargado.toLowerCase());
+const telefonoRepetido = listaComedores.some(c => c.telefono === telefono);
+
+if (nombreRepetido) {
+  mostrarNotificacion('Ya existe un comedor con ese nombre.', 'error');
+  return;
+}
+if (encargadoRepetido) {
+  mostrarNotificacion('Ese encargado ya está asignado a otro comedor.', 'error');
+  return;
+}
+if (telefonoRepetido) {
+  mostrarNotificacion('Ese número de teléfono ya está registrado.', 'error');
+  return;
+}
 
   // Registrar comedor
   listaComedores.push(comedor); // Agregar al arreglo
@@ -272,4 +290,28 @@ document.addEventListener('DOMContentLoaded', () => {
   listaComedores = comedoresGuardados;
   listaComedores.forEach(comedor => agregarFila(comedor));
   actualizarEstadisticas();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const inputTelefono = document.getElementById('telefono');
+  if (inputTelefono) {
+    inputTelefono.addEventListener('input', function (e) {
+      let valor = e.target.value.replace(/\D/g, '');
+
+      // Forzar que comience con 9
+      if (valor && valor[0] !== '9') {
+        valor = '9' + valor.slice(1);
+      }
+
+      valor = valor.slice(0, 9);
+
+      if (valor.length > 3 && valor.length <= 6) {
+        valor = valor.replace(/(\d{3})(\d+)/, '$1-$2');
+      } else if (valor.length > 6) {
+        valor = valor.replace(/(\d{3})(\d{3})(\d+)/, '$1-$2-$3');
+      }
+
+      e.target.value = valor;
+    });
+  }
 });
