@@ -1,45 +1,11 @@
-<<<<<<< HEAD
-// 2. Cargar registros existentes o inicializar array
-    let entregas = JSON.parse(localStorage.getItem('entregas')) || [];
+// =======================
+// DOM Elements: Formulario y tabla
+// =======================
+const totalBeneficiarios = document.getElementById('totalBeneficiarios');
+const totalDesayunos = document.getElementById('totalDesayunos');
+const totalAlmuerzos = document.getElementById('totalAlmuerzos');
+const totalRaciones = document.getElementById('totalRaciones');
 
-// registros.js - Manejo de registros y visualización
-document.addEventListener('DOMContentLoaded', function() {
-    // 1. Obtener elementos del DOM
-    const form = document.getElementById('formRaciones');
-    const tabla = document.getElementById('tablaRaciones');
-    
-    
-    
-    // 3. Función para guardar una nueva entrega
-    function guardarEntrega(e) {
-        e.preventDefault();
-        
-        const nuevaEntrega = {
-            id: Date.now(),
-            dni: document.getElementById('dni').value,
-            nombre: document.getElementById('nombre').value,
-            tipoDeRacion: document.getElementById('tipoDeRacion').value,
-            comedor: document.getElementById('comedor').value,
-            fecha: new Date().toLocaleDateString('es-PE'),
-            
-            hora: new Date().toLocaleTimeString('es-PE', {hour: '2-digit', minute:'2-digit'})
-        };
-        
-        // Agregar al inicio del array
-        entregas.unshift(nuevaEntrega);
-        
-        // Guardar en localStorage
-        localStorage.setItem('entregas', JSON.stringify(entregas));
-        
-        // Actualizar tabla
-        actualizarTabla();
-        
-        // Resetear formulario
-        form.reset();
-    }
-
-    // 4. Función para actualizar la tabla
-=======
 // registros.js - Solo manejo de visualización (SIN guardar entregas)
 document.addEventListener('DOMContentLoaded', function() {
     // 1. Obtener elementos del DOM
@@ -49,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let entregas = JSON.parse(localStorage.getItem('entregas')) || [];
     
     // 3. Función para actualizar la tabla
->>>>>>> Juan-rama
     function actualizarTabla() {
         tabla.innerHTML = '';
         
@@ -92,27 +57,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-<<<<<<< HEAD
-    // 5. Event Listeners
-    form.addEventListener('submit', guardarEntrega);
-    
-    // Cargar datos al iniciar
-    actualizarTabla();
-});
-
-
-
-
-
-
-
-
-
-
-
-// Función para exportar a PDF (agregar al final del archivo registros.js)
-document.getElementById('btnExportar').addEventListener('click', function() {
-=======
     // 4. Función para refrescar datos desde localStorage
     function refrescarDatos() {
         entregas = JSON.parse(localStorage.getItem('entregas')) || [];
@@ -157,6 +101,15 @@ document.getElementById('btnExportar').addEventListener('click', function() {
     
     // 9. Función pública para actualizar tabla (llamar desde otros archivos)
     window.actualizarTablaRaciones = refrescarDatos;
+
+    const dataEntregas = JSON.parse(localStorage.getItem("entregas"))
+    const numeroDeDesayunos = dataEntregas.filter(elmt=> elmt.tipoDeRacion === "desayuno").length
+    const numeroDeAlmuerzos = dataEntregas.filter(elmt=> elmt.tipoDeRacion === "almuerzo").length
+    const numeroDeBeneficiarios = dataEntregas.filter((elmt, index, self) => index === self.findIndex(i=> i.dni=== elmt.dni)).length // elmt/index/self puede ser cualquier nombre
+    totalDesayunos.textContent = numeroDeDesayunos;
+    totalAlmuerzos.textContent = numeroDeAlmuerzos;
+    totalRaciones.textContent = numeroDeDesayunos + numeroDeAlmuerzos;
+    totalBeneficiarios.textContent = numeroDeBeneficiarios; 
 });
 
 // Función para exportar a PDF
@@ -164,7 +117,6 @@ document.getElementById('btnExportar').addEventListener('click', function() {
     // Obtener datos actualizados
     const entregas = JSON.parse(localStorage.getItem('entregas')) || [];
     
-
     // Configuración del PDF
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
@@ -174,11 +126,6 @@ document.getElementById('btnExportar').addEventListener('click', function() {
     doc.setTextColor(40);
     doc.text('Reporte de Entregas de Raciones', 105, 15, null, null, 'center');
     
-    // Logo institucional (opcional)
-    const img = new Image();
-    img.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Logo_muni_callao.png/1200px-Logo_muni_callao.png';
-   // doc.addImage(img, 'PNG', 10, 10, 30, 30);
-
     // Fecha de generación
     doc.setFontSize(10);
     doc.text(`Generado el: ${new Date().toLocaleDateString('es-PE')}`, 160, 25);
@@ -245,9 +192,4 @@ document.getElementById('btnExportar').addEventListener('click', function() {
     
     // Guardar el PDF
     doc.save(`Reporte_Entregas_${new Date().toISOString().slice(0,10)}.pdf`);
-
 });
-
-
-});
-
